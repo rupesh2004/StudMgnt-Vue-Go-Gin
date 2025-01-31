@@ -4,9 +4,10 @@ import { onMounted, ref } from "vue";
 
 export default {
   name: "FetchAllStudent",
-  setup() {
+  setup(_, { emit }) {
     const students = ref([]);
 
+    // Fetch all students data
     const getAllStudentsData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/");
@@ -17,19 +18,25 @@ export default {
       }
     };
 
+    // Delete student by ID
     const deleteStudent = async (studentID) => {
       try {
-        await axios.delete(`http://localhost:3000/delete/${studentID}`);
-        students.value = students.value.filter((student) => student.studentID !== studentID);
+        const response = await axios.delete(`http://localhost:3000/deleteStudent/${studentID}`);
+        if (response.status === 200) {
+          getAllStudentsData();
+          alert("Student Deleted successfully");
+        }
       } catch (error) {
         console.error("Error deleting student:", error);
       }
     };
 
+    // Update student (send studentID to the parent)
     const updateStudent = async (studentID) => {
-      alert(`Update functionality for Student ID ${studentID} coming soon!`);
+      emit("studentID", studentID); // Using emit from setup context
     };
 
+    // Fetch students data when component is mounted
     onMounted(() => {
       getAllStudentsData();
     });
@@ -105,7 +112,6 @@ h1 {
   border-radius: 8px;
   overflow: hidden;
 }
-
 
 .styled-table th, .styled-table td {
   padding: 12px;

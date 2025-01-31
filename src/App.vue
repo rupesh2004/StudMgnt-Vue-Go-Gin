@@ -1,44 +1,63 @@
 <template>
-<div class="main-container">
-    <h1>Student Management</h1>
-    <div class="button-group">
-        <button class="action-btn" @click="showAddStudent">Add Student</button>
-        <button class="action-btn" @click="getAllStudents">Get All Students</button>
+    <div class="main-container">
+      <h1>Student Management</h1>
+      <div class="button-group">
+          <button class="action-btn" @click="showAddStudent">Add Student</button>
+          <button class="action-btn" @click="getAllStudents">Get All Students</button>
+      </div>
+      <AddStudent v-if="showForm" @studentID="handleStudentID" />
+      <FetchAllStudent v-if="showFetchAllStudForm" @studentID="handleStudentID" />
+      <p>Student ID: {{ studentID }}</p>
     </div>
-    <AddStudent v-if="showForm" />
-    <FetchAllStudent v-if="showFetchAllStudForm"/>
-</div>
-</template>
-
-<script>
-import AddStudent from './components/AddStudent.vue';
-import FetchAllStudent from './components/FetchAllStudent.vue';
-
-export default {
-    name: "App",
+  </template>
+  
+  <script>
+  import { ref } from 'vue';
+  import AddStudent from './components/AddStudent.vue';
+  import FetchAllStudent from './components/FetchAllStudent.vue';
+  
+  export default {
     components: {
-        AddStudent,
-        FetchAllStudent
+      AddStudent,
+      FetchAllStudent
     },
-    data() {
-        return {
-            showForm: false,
-            showFetchAllStudForm: false
-        };
-    },
-    methods: {
-        showAddStudent() {
-            this.showForm = true;
-            this.showFetchAllStudForm = false
-        },
-        getAllStudents() {
-            this.showForm = false
-            this.showFetchAllStudForm = true
-        }
+    setup() {
+      const showForm = ref(false);
+      const showFetchAllStudForm = ref(false);
+      const studentID = ref(null);
+  
+      const showAddStudent = () => {
+        showForm.value = true;
+        showFetchAllStudForm.value = false;
+      };
+  
+      const getAllStudents = () => {
+        showForm.value = false;
+        showFetchAllStudForm.value = true;
+      };
+  
+      const handleStudentID = (id) => {
+        console.log(id); // Log the student ID
+        studentID.value = id; // Store the student ID in data
+      };
+  
+      return {
+        showForm,
+        showFetchAllStudForm,
+        studentID,
+        showAddStudent,
+        getAllStudents,
+        handleStudentID
+      };
     }
-};
-</script>
-
+  };
+  </script>
+  
+  
+  <style scoped>
+  /* Your styles here */
+  </style>
+  
 <style scoped>
 body {
     font-family: Arial, sans-serif;

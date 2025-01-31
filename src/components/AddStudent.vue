@@ -11,7 +11,11 @@ export default {
         const dob = ref("");
         const profilePhoto = ref(""); 
         const profilePhotoBase64 = ref(""); 
+        const formTitle = ref("Add Student");
 
+        const updateStudent = (studentID) =>{
+            console.log(studentID.value)
+        }
         const handleProFileChange = (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -46,6 +50,7 @@ export default {
                 axios.post("http://localhost:3000/studData", newStud)
                     .then(response => {
                         console.log("Student added", response.data);
+                        alert("Student Added Successfully");
                     })
                     .catch(error => {
                         console.log("Error", error);
@@ -62,38 +67,39 @@ export default {
             profilePhotoBase64,
             handleProFileChange,
             createStudent,
+            formTitle
         };
     }
 };
-</script scoped>
+</script>
 
 <template>
-    <div class="form-container">
-        <h2>Add Student</h2>
-        <form @submit.prevent="createStudent">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" v-model="fullName" />
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" v-model="Email" />
-            </div>
-            <div class="form-group">
-                <label>Phone</label>
-                <input type="tel" v-model="Phone" />
-            </div>
-            <div class="form-group">
-                <label>Date of Birth</label>
-                <input type="date" v-model="dob" />
-            </div>
-            <div class="form-group">
-                <label>Profile Picture</label>
-                <input type="file" @change="handleProFileChange" />
-            </div>
-            <button type="submit" class="submit-btn">Submit</button>
-        </form>
-    </div>
+<div class="form-container">
+    <h2>{{ formTitle }}</h2>
+    <form @submit.prevent="createStudent">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" v-model="fullName" />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" v-model="Email" />
+        </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" v-model="Phone" />
+        </div>
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" v-model="dob" />
+        </div>
+        <div class="form-group">
+            <label>Profile Picture</label>
+            <input type="file" @change="handleProFileChange" />
+        </div>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</div>
 </template>
 
 <style scoped>

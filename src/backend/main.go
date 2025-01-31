@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -44,7 +45,6 @@ func main() {
 			return
 		}
 
-
 		if newStudent.ProfilePhoto != "" {
 			decodedImage, err := base64.StdEncoding.DecodeString(newStudent.ProfilePhoto)
 			if err != nil {
@@ -70,6 +70,22 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{
 			"message":  "Student data received successfully",
 			"students": students,
+		})
+	})
+
+	router.DELETE("/deleteStudent/:studentID",func(ctx *gin.Context) {
+		id := ctx.Param("studentID")
+		studentid,_ := strconv.Atoi(id)
+
+		for i, student := range students {
+			if student.StudentID == studentid {
+				students = append(students[:i], students[i+1:]...)
+				ctx.JSON(http.StatusOK, gin.H{"message": "Student deleted successfully"})
+				return
+			}
+		}
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"message" : fmt.Sprintf("Student with %d is not found",studentid),
 		})
 	})
 
