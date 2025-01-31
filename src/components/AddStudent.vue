@@ -12,10 +12,7 @@ export default {
         const profilePhoto = ref(""); 
         const profilePhotoBase64 = ref(""); 
         const formTitle = ref("Add Student");
-
-        const updateStudent = (studentID) =>{
-            console.log(studentID.value)
-        }
+        
         const handleProFileChange = (event) => {
             const file = event.target.files[0];
             if (file) {

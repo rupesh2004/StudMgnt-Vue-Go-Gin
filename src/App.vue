@@ -5,9 +5,9 @@
           <button class="action-btn" @click="showAddStudent">Add Student</button>
           <button class="action-btn" @click="getAllStudents">Get All Students</button>
       </div>
-      <AddStudent v-if="showForm" @studentID="handleStudentID" />
-      <FetchAllStudent v-if="showFetchAllStudForm" @studentID="handleStudentID" />
-      <p>Student ID: {{ studentID }}</p>
+      <AddStudent v-if="showForm"  />
+      <FetchAllStudent v-if="showFetchAllStudForm" />
+
     </div>
   </template>
   
@@ -36,18 +36,12 @@
         showFetchAllStudForm.value = true;
       };
   
-      const handleStudentID = (id) => {
-        console.log(id); // Log the student ID
-        studentID.value = id; // Store the student ID in data
-      };
-  
       return {
         showForm,
         showFetchAllStudForm,
         studentID,
         showAddStudent,
-        getAllStudents,
-        handleStudentID
+        getAllStudents
       };
     }
   };
